@@ -39,7 +39,7 @@ export function seedState() {
       ]),
       A('reading', 'Reading', [
         V('read-pleasure', 'Read for pleasure', 'low', 'none', ['alone', 'around'], ['seat']),
-        V('read-dense', 'Read something dense', 'medium', 'none', ['alone', 'around'], ['seat']),
+        V('read-dense', 'Read non-fiction', 'medium', 'none', ['alone', 'around'], ['seat']),
       ]),
       A('crafting', 'Crafting', [
         V('craft-easy', 'Easy making', 'low', 'low', ['alone', 'with'], ['table']),
@@ -66,12 +66,12 @@ export function seedState() {
     ],
     places: [
       P('home', 'Home', 'home', ['alone', 'with'], ['printer', 'games', 'kitchen', 'table', 'desk', 'seat']),
-      P('pret', 'Pret, Surbiton', 'out', ['alone', 'around', 'with'], ['seat', 'desk', 'coffee', 'food']),
-      P('gails', "Gail's, Surbiton", 'out', ['alone', 'around', 'with'], ['seat', 'desk', 'coffee', 'food']),
+      P('pret', 'Pret', 'out', ['alone', 'around', 'with'], ['seat', 'desk', 'coffee', 'food']),
+      P('gails', "Gail's", 'out', ['alone', 'around', 'with'], ['seat', 'desk', 'coffee', 'food']),
       P('bfi', 'BFI Café', 'out', ['alone', 'around', 'with'], ['seat', 'desk', 'coffee', 'food']),
       P('dauns', 'Dauns', 'out', ['alone', 'around', 'with'], ['seat', 'coffee', 'food']),
       P('southbank', 'Southbank Centre', 'out', ['alone', 'around', 'with'], ['seat', 'desk', 'culture']),
-      P('gym', 'My gym', 'out', ['alone', 'around'], ['gym', 'spa']),
+      P('gym', 'Third Space', 'out', ['alone', 'around'], ['gym', 'spa']),
       P('coworking', 'Co-working space', 'out', ['alone', 'around'], ['desk', 'seat']),
       P('museums', 'Museums', 'out', ['alone', 'around', 'with'], ['culture', 'seat']),
       P('canary-wharf', 'Canary Wharf', 'out', ['with'], ['social', 'seat', 'coffee', 'food', 'gym']),
