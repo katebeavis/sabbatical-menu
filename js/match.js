@@ -49,6 +49,14 @@ export function jitter(key, seed) {
   return (h >>> 0) / 4294967296;
 }
 
+// "Go out" accepts local places too; "Stay local" only accepts local ones.
+export function whereOk(pref, place) {
+  if (pref === 'home') return place.where === 'home';
+  if (pref === 'local') return place.where === 'local';
+  if (pref === 'out') return place.where !== 'home';
+  return true;
+}
+
 // prefs: { energy, where, company } each may be null/'either' = no preference.
 export function scoreCandidate(c, prefs, history, now = Date.now()) {
   let penalty = 0;
@@ -59,9 +67,11 @@ export function scoreCandidate(c, prefs, history, now = Date.now()) {
     if (diff > 0) notes.push('a little more mental effort than you asked for');
     if (diff < 0) notes.push('a little gentler than you asked for');
   }
-  if (prefs.where && prefs.where !== 'either' && c.place && c.place.where !== prefs.where) {
+  if (prefs.where && prefs.where !== 'either' && c.place && !whereOk(prefs.where, c.place)) {
     penalty += 2;
-    notes.push(prefs.where === 'home' ? 'out rather than at home' : 'at home rather than out');
+    if (prefs.where === 'home') notes.push('out rather than at home');
+    else if (prefs.where === 'local') notes.push(c.place.where === 'home' ? 'at home rather than local' : 'a little further afield than local');
+    else notes.push('at home rather than out');
   }
   if (prefs.company) {
     const avail = c.place

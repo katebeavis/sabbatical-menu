@@ -21,7 +21,7 @@ const P = (id, name, where, company, offers) => ({
 
 export function seedState() {
   return {
-    version: 1,
+    version: 2,
     tags: ['printer', 'games', 'kitchen', 'table', 'desk', 'seat', 'gym', 'spa', 'culture', 'social', 'coffee', 'food'],
     activities: [
       A('3d-printing', '3D printing', [
@@ -66,8 +66,8 @@ export function seedState() {
     ],
     places: [
       P('home', 'Home', 'home', ['alone', 'with'], ['printer', 'games', 'kitchen', 'table', 'desk', 'seat']),
-      P('pret', 'Pret', 'out', ['alone', 'around', 'with'], ['seat', 'desk', 'coffee', 'food']),
-      P('gails', "Gail's", 'out', ['alone', 'around', 'with'], ['seat', 'desk', 'coffee', 'food']),
+      P('pret', 'Pret', 'local', ['alone', 'around', 'with'], ['seat', 'desk', 'coffee', 'food']),
+      P('gails', "Gail's", 'local', ['alone', 'around', 'with'], ['seat', 'desk', 'coffee', 'food']),
       P('bfi', 'BFI Café', 'out', ['alone', 'around', 'with'], ['seat', 'desk', 'coffee', 'food']),
       P('dauns', 'Dauns', 'out', ['alone', 'around', 'with'], ['seat', 'coffee', 'food']),
       P('southbank', 'Southbank Centre', 'out', ['alone', 'around', 'with'], ['seat', 'desk', 'culture']),

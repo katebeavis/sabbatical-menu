@@ -33,6 +33,10 @@ let seed = 1;
 let cur = null; // { variantId, placeId, extraId, seed }
 
 function normalize(s) {
+  if ((s.version || 1) < 2) { // v2 added "local" places
+    for (const p of s.places || []) if ((p.id === 'pret' || p.id === 'gails') && p.where === 'out') p.where = 'local';
+    s.version = 2;
+  }
   s.tags ||= [];
   s.activities ||= [];
   s.places ||= [];
@@ -144,9 +148,11 @@ const ENERGY_CARDS = [
 ];
 const WHERE_CARDS = [
   { v: 'home', hue: 'blue', t: 'Stay home', d: '' },
+  { v: 'local', hue: 'sky', t: 'Stay local', d: '' },
   { v: 'out', hue: 'teal', t: 'Go out', d: '' },
-  { v: 'either', hue: 'sky', t: 'Either', d: '' },
+  { v: 'either', hue: 'pink', t: 'Either', d: '' },
 ];
+const WHERE_LABEL = { home: 'At home', local: 'Local', out: 'Out' };
 const COMPANY_CARDS = [
   { v: 'alone', hue: 'violet', t: 'By myself', d: '' },
   { v: 'around', hue: 'pink', t: 'Around people', d: 'no need to chat' },
@@ -156,7 +162,7 @@ const COMPANY_CARDS = [
 function cardGroup(title, hint, cards, key) {
   return h('section', { class: 'group' },
     h('div', { class: 'group-title' }, title, hint ? h('small', null, ' · ' + hint) : null),
-    h('div', { class: 'cards' }, cards.map(c =>
+    h('div', { class: 'cards' + (cards.length === 4 ? ' four' : '') }, cards.map(c =>
       h('button', {
         class: 'card', type: 'button', 'data-hue': c.hue, 'aria-pressed': String(prefs[key] === c.v), onclick: () => setPref(key, c.v),
       }, h('span', { class: 't' }, c.t), c.d ? h('span', { class: 'd' }, c.d) : null))));
@@ -260,7 +266,7 @@ function savedView() {
     places.length ? h('div', null, h('div', { class: 'section-label' }, 'Places'), h('div', { class: 'list' }, places.map(p =>
       h('div', { class: 'item' },
         h('button', { class: 'grow item', type: 'button', style: 'border:0;padding:0;background:none', onclick: () => tryPlace(p) },
-          h('div', { class: 'grow' }, h('div', { class: 'name' }, p.name), h('div', { class: 'sub' }, p.where === 'home' ? 'At home' : 'Out'))),
+          h('div', { class: 'grow' }, h('div', { class: 'name' }, p.name), h('div', { class: 'sub' }, WHERE_LABEL[p.where]))),
         h('button', { class: 'star', type: 'button', 'aria-pressed': 'true', 'aria-label': 'Remove from saved', onclick: () => { p.saved = false; commit(); } }, '★'))))) : null);
 }
 
@@ -322,7 +328,7 @@ function placesList() {
   return h('div', null,
     h('div', { class: 'list' }, state.places.map(p =>
       h('div', { class: 'item', role: 'button', tabindex: '0', onclick: () => editPlace(p) },
-        h('div', { class: 'grow' }, h('div', { class: 'name' }, p.name), h('div', { class: 'sub' }, (p.where === 'home' ? 'Home' : 'Out') + ' · ' + (p.offers.join(', ') || 'no tags'))),
+        h('div', { class: 'grow' }, h('div', { class: 'name' }, p.name), h('div', { class: 'sub' }, WHERE_LABEL[p.where] + ' · ' + (p.offers.join(', ') || 'no tags'))),
         starBtn(p)))),
     h('div', { class: 'row' }, h('button', { class: 'btn primary', type: 'button', onclick: () => editPlace(null) }, '+ Add place')));
 }
@@ -486,7 +492,7 @@ function editPlace(existing) {
     draft,
     body: (d, redraw) => h('div', null,
       field('Name', textInput(d.name, v => { d.name = v; }, 'e.g. The library')),
-      field('Where', chipSet([{ v: 'home', l: 'At home' }, { v: 'out', l: 'Out' }], d.where, false, x => { d.where = x; redraw(); })),
+      field('Where', chipSet([{ v: 'home', l: 'At home' }, { v: 'local', l: 'Local' }, { v: 'out', l: 'Further out' }], d.where, false, x => { d.where = x; redraw(); })),
       field('Company possible here', chipSet(COMPANY.map(c => ({ v: c, l: COMPANY_LABEL[c] })), d.company, true, x => { d.company = x; redraw(); })),
       field('What it offers', tagChips(d.offers, x => { d.offers = x; redraw(); }, redraw), 'Activities match places by these tags.')),
     onSave: d => {
