@@ -138,19 +138,19 @@ function toggleSaveCombo() {
 
 // ---------- views ----------
 const ENERGY_CARDS = [
-  { v: 'low', t: 'Low', d: 'easy going' },
-  { v: 'medium', t: 'Medium', d: 'some focus' },
-  { v: 'high', t: 'High', d: 'deep focus' },
+  { v: 'low', hue: 'teal', t: 'Low', d: 'easy going' },
+  { v: 'medium', hue: 'amber', t: 'Medium', d: 'some focus' },
+  { v: 'high', hue: 'coral', t: 'High', d: 'deep focus' },
 ];
 const WHERE_CARDS = [
-  { v: 'home', t: 'Stay home', d: '' },
-  { v: 'out', t: 'Go out', d: '' },
-  { v: 'either', t: 'Either', d: '' },
+  { v: 'home', hue: 'blue', t: 'Stay home', d: '' },
+  { v: 'out', hue: 'teal', t: 'Go out', d: '' },
+  { v: 'either', hue: 'sky', t: 'Either', d: '' },
 ];
 const COMPANY_CARDS = [
-  { v: 'alone', t: 'By myself', d: '' },
-  { v: 'around', t: 'Around people', d: 'no need to chat' },
-  { v: 'with', t: 'With someone', d: '' },
+  { v: 'alone', hue: 'violet', t: 'By myself', d: '' },
+  { v: 'around', hue: 'pink', t: 'Around people', d: 'no need to chat' },
+  { v: 'with', hue: 'amber', t: 'With someone', d: '' },
 ];
 
 function cardGroup(title, hint, cards, key) {
@@ -158,7 +158,7 @@ function cardGroup(title, hint, cards, key) {
     h('div', { class: 'group-title' }, title, hint ? h('small', null, ' · ' + hint) : null),
     h('div', { class: 'cards' }, cards.map(c =>
       h('button', {
-        class: 'card', type: 'button', 'aria-pressed': String(prefs[key] === c.v), onclick: () => setPref(key, c.v),
+        class: 'card', type: 'button', 'data-hue': c.hue, 'aria-pressed': String(prefs[key] === c.v), onclick: () => setPref(key, c.v),
       }, h('span', { class: 't' }, c.t), c.d ? h('span', { class: 'd' }, c.d) : null))));
 }
 
