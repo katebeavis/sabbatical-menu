@@ -37,6 +37,11 @@ function normalize(s) {
     for (const p of s.places || []) if ((p.id === 'pret' || p.id === 'gails') && p.where === 'out') p.where = 'local';
     s.version = 2;
   }
+  if ((s.version || 1) < 3) { // v3 removed "Tinker or follow a tutorial"
+    for (const act of s.activities || []) act.variants = act.variants.filter(v => v.id !== 'learn-tinker');
+    s.savedCombos = (s.savedCombos || []).filter(c => c.variantId !== 'learn-tinker');
+    s.version = 3;
+  }
   s.tags ||= [];
   s.activities ||= [];
   s.places ||= [];
@@ -548,8 +553,9 @@ function render() {
 
 async function init() {
   const stored = await loadState();
+  const storedVersion = stored ? stored.version || 1 : null;
   state = normalize(stored || seedState());
-  if (!stored) await saveState(state);
+  if (!stored || storedVersion !== state.version) await saveState(state);
   freshSuggestion();
   render();
   askForPersistence();
