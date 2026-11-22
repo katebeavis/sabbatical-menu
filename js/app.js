@@ -42,6 +42,10 @@ function normalize(s) {
     s.savedCombos = (s.savedCombos || []).filter(c => c.variantId !== 'learn-tinker');
     s.version = 3;
   }
+  if ((s.version || 1) < 4) { // v4 renamed "Read for pleasure" to "Read fiction"
+    for (const act of s.activities || []) for (const v of act.variants) if (v.id === 'read-pleasure' && v.name === 'Read for pleasure') v.name = 'Read fiction';
+    s.version = 4;
+  }
   s.tags ||= [];
   s.activities ||= [];
   s.places ||= [];

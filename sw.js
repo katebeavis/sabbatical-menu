@@ -1,5 +1,5 @@
 // Offline cache. Bump VERSION when shipping changes so phones pick them up.
-const VERSION = 'v6';
+const VERSION = 'v7';
 const CACHE = 'sabbatical-menu-' + VERSION;
 const ASSETS = [
   './', 'index.html', 'styles.css', 'manifest.webmanifest',

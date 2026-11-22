@@ -21,7 +21,7 @@ const P = (id, name, where, company, offers) => ({
 
 export function seedState() {
   return {
-    version: 3,
+    version: 4,
     tags: ['printer', 'games', 'kitchen', 'table', 'desk', 'seat', 'gym', 'spa', 'culture', 'social', 'coffee', 'food'],
     activities: [
       A('3d-printing', '3D printing', [
@@ -38,7 +38,7 @@ export function seedState() {
         V('cook-ferment', 'Tend sourdough or ferments', 'low', 'low', ['alone'], ['kitchen']),
       ]),
       A('reading', 'Reading', [
-        V('read-pleasure', 'Read for pleasure', 'low', 'none', ['alone', 'around'], ['seat']),
+        V('read-pleasure', 'Read fiction', 'low', 'none', ['alone', 'around'], ['seat']),
         V('read-dense', 'Read non-fiction', 'medium', 'none', ['alone', 'around'], ['seat']),
       ]),
       A('crafting', 'Crafting', [
