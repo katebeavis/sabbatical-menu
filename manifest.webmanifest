@@ -1,0 +1,15 @@
+{
+  "name": "Sabbatical Menu",
+  "short_name": "Menu",
+  "description": "A menu of enjoyable ways to spend your time. Plan experiences, not outcomes.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f6f1e9",
+  "theme_color": "#f6f1e9",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
